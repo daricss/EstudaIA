@@ -1,0 +1,12 @@
+# Copie este arquivo para .dev.vars e preencha. NUNCA envie o .dev.vars para o GitHub.
+
+# Groq (grátis): console.groq.com > API Keys
+GROQ_API_KEY=gsk_...
+
+# NVIDIA (grátis): build.nvidia.com > Get API Key. Opcional: entra quando a Groq esgota.
+NVIDIA_API_KEY=nvapi-...
+
+# Opcionais (os padrões já funcionam):
+# GROQ_MODEL=llama-3.3-70b-versatile
+# GROQ_FALLBACK_MODEL=llama-3.1-8b-instant
+# NVIDIA_MODEL=meta/llama-3.3-70b-instruct

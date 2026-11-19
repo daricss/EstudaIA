@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light" data-accent="azul">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="EstudaIA: tutor guiado, leitura de materiais, cartões de revisão e foco. Aprenda com a inteligência artificial sem copiar respostas. Projeto escolar gratuito." />
+  <meta name="theme-color" content="#fbf4e6" />
+  <meta property="og:title" content="EstudaIA — Estudo ativo com Inteligência Artificial" />
+  <meta property="og:description" content="Tutoria guiada, materiais de estudo, revisão com cartões e senso crítico. Aprenda sem depender de respostas prontas." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314a39a'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%23fffaf0' stroke-width='2'/%3E%3Ccircle cx='21' cy='11' r='3' fill='%23f6b93b'/%3E%3C/svg%3E" />
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem("estudoia_ui_v4") || "null") || {};
+        var t = s.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", t);
+        if (s.accent) document.documentElement.setAttribute("data-accent", s.accent);
+      } catch (e) {}
+    })();
+  </script>
+  <title>EstudaIA — Estudo Ativo com Inteligência Artificial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Caveat:wght@600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#tutor">Ir para o tutor</a>
+  <!-- Navegação Superior Minimalista -->
+  <header class="site-header" id="inicio">
+    <div class="wrap header-inner">
+      <a href="#inicio" class="logo" data-nav="inicio">
+        <span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="logo-name">EstudaIA</span>
+      </a>
+
+      <nav class="main-nav" id="mainNav" aria-label="Seções">
+        <a href="#tutor" data-nav="tutor">Tutor</a>
+        <a href="#materiais" data-nav="materiais">Materiais</a>
+        <a href="#gerador" data-nav="gerador">Comandos</a>
+        <a href="#pratica" data-nav="pratica">Na prática</a>
+        <a href="#caderno" data-nav="caderno">Mesa</a>
+        <a href="#cartoes" data-nav="cartoes">Cartões</a>
+        <a href="#checagem" data-nav="checagem">Senso crítico</a>
+        <a href="#sobre" data-nav="sobre">Sobre</a>
+      </nav>
+
+      <div class="header-tools">
+        <div class="accent-dots" role="group" aria-label="Cor de destaque">
+          <button type="button" class="accent-dot active" data-accent="azul" title="Azul Caneta" aria-label="Cor Azul Caneta"></button>
+          <button type="button" class="accent-dot" data-accent="verde" title="Verde Folha" aria-label="Cor Verde Folha"></button>
+          <button type="button" class="accent-dot" data-accent="violeta" title="Violeta" aria-label="Cor Violeta"></button>
+          <button type="button" class="accent-dot" data-accent="coral" title="Coral" aria-label="Cor Coral"></button>
+        </div>
+
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Alternar tema claro ou escuro" title="Claro / Escuro">
+          <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+
+        <button type="button" class="mobile-btn" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="hand-note">estudo ativo, de verdade</p>
+          <h1 id="heroTitle">Estude qualquer assunto sem pedir a <mark class="hl">resposta pronta</mark>.</h1>
+          <p class="hero-text">Escreva o que você quer aprender e converse com um tutor que explica aos poucos, pergunta e deixa a conclusão com você. Tudo aqui mesmo, sem cadastro.</p>
+
+          <form class="hero-form" id="heroForm">
+            <label for="heroTopic" class="sr-only">O que você quer estudar?</label>
+            <input id="heroTopic" type="text" placeholder="Ex: logaritmos, crase, SQL" autocomplete="off" />
+            <button type="submit" class="btn btn-solid">Estudar agora</button>
+            <button type="button" class="btn btn-ghost" id="heroPromptBtn">Só o comando</button>
+          </form>
+
+          <div class="hero-suggest" role="group" aria-label="Sugestões de assunto">
+            <span class="hint-label">Ou comece por:</span>
+            <button type="button" data-c="green" data-suggest="Fotossíntese" data-subject="Biologia">Fotossíntese</button>
+            <button type="button" data-c="sun" data-suggest="Revolução Francesa" data-subject="História">Revolução Francesa</button>
+            <button type="button" data-c="coral" data-suggest="Equação do 2º grau" data-subject="Matemática">Equação do 2º grau</button>
+            <button type="button" data-c="pink" data-suggest="Uso da crase" data-subject="Português">Uso da crase</button>
+            <button type="button" data-c="blue" data-suggest="Laços de repetição" data-subject="Programação">Laços de repetição</button>
+          </div>
+        </div>
+
+        <div class="globe-wrap">
+          <canvas id="globe" aria-label="Globo 3D com matérias escolares. Arraste para girar e toque numa matéria para começar por ela." role="img">Globo interativo de matérias.</canvas>
+          <p class="globe-hint"><span class="hand-note small">toque numa matéria!</span> Arraste para girar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow-section" aria-label="Como funciona">
+      <div class="wrap">
+        <ol class="flow-strip">
+          <li class="flow-step"><span class="flow-num">1</span><div><strong>Consciência</strong><p>Entenda onde a IA ajuda e onde uma resposta pronta pode atrapalhar.</p></div></li>
+          <li class="flow-step"><span class="flow-num">2</span><div><strong>Tutoria guiada</strong><p>Peça explicações e pistas. Responda e construa seu raciocínio.</p></div></li>
+          <li class="flow-step"><span class="flow-num">3</span><div><strong>Verificação</strong><p>Confira informações com o professor, o livro e outras fontes.</p></div></li>
+          <li class="flow-step"><span class="flow-num">4</span><div><strong>Estudo sem IA</strong><p>Feche o chat, explique com suas palavras e resolva sozinho.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Tutor direto na plataforma -->
+    <section class="block-section sec-blue" id="tutor">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">converse e aprenda</p>
+          <h2>Tutor de estudo</h2>
+          <p>Um chat que ensina por perguntas, no seu ritmo. Escolha o modo, escreva o assunto e comece. As respostas completas só vêm depois que você tenta.</p>
+        </div>
+
+        <div class="tutor-shell">
+          <aside class="panel tutor-side" aria-label="Ajustes do tutor">
+            <div class="field">
+              <label for="tMode">Como quer estudar</label>
+              <select id="tMode">
+                <option value="socratico">Aprender passo a passo</option>
+                <option value="explicar">Explicar de forma simples</option>
+                <option value="exercicio">Resolver uma questão (guiado)</option>
+                <option value="corrigir">Achar meu erro</option>
+                <option value="quiz">Me testar (quiz)</option>
+                <option value="feynman">Eu explico (Feynman)</option>
+                <option value="redacao">Revisar redação</option>
+                <option value="plano">Plano de estudo</option>
+                <option value="idioma">Praticar um idioma</option>
+              </select>
+              <p class="field-hint" id="modeHint"></p>
+            </div>
+            <div class="field">
+              <label for="tTopic">Assunto</label>
+              <input type="text" id="tTopic" placeholder="Ex: Era Vargas" autocomplete="off" />
+            </div>
+            <div class="field">
+              <label for="tSubject">Matéria <small>(opcional)</small></label>
+              <input type="text" id="tSubject" list="subjectList" placeholder="Ex: História" autocomplete="off" />
+            </div>
+            <details class="more-opts">
+              <summary>Mais opções</summary>
+              <div class="field">
+                <label for="tLevel">Nível</label>
+                <select id="tLevel">
+                  <option>Ensino Fundamental</option><option selected>Ensino Médio</option><option>ENEM e Vestibulares</option><option>Curso Técnico / Faculdade</option><option>Estudo livre</option><option>Concurso / Certificação</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="tTone">Estilo</label>
+                <select id="tTone"><option value="paciente">Didático e simples</option><option value="direto">Curto e direto</option><option value="banca">Exigente (nível prova)</option></select>
+              </div>
+              <div class="field">
+                <label for="tLength">Tamanho das respostas</label>
+                <select id="tLength"><option value="curto">Curtas</option><option value="normal" selected>Normais</option><option value="detalhado">Detalhadas</option></select>
+              </div>
+              <div class="field">
+                <label for="tLang">Idioma</label>
+                <select id="tLang"><option value="pt">Português</option><option value="en">English</option><option value="es">Español</option></select>
+              </div>
+              <label class="check-row compact">
+                <input type="checkbox" id="tReveal" checked />
+                <span>Liberar a resolução completa depois de eu tentar 2 vezes</span>
+              </label>
+            </details>
+          </aside>
+
+          <div class="panel chat-window">
+            <div class="chat-head">
+              <span class="avatar" aria-hidden="true"></span>
+              <div class="chat-who"><strong>Tutor EstudaIA</strong><button type="button" class="engine-pill" id="engineStatus" data-engine="checking"><i></i><span class="pill-text">Conectando…</span></button></div>
+              <div class="chat-head-btns">
+                <button type="button" class="btn btn-ghost btn-xs" id="chatCopyBtn">Copiar conversa</button>
+                <button type="button" class="btn btn-ghost btn-xs" id="chatNewBtn">Nova conversa</button>
+              </div>
+            </div>
+
+            <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="Conversa com o tutor">
+              <div class="chat-empty" id="chatEmpty">
+                <p class="hand-note">por onde começamos?</p>
+                <h3>Sobre o que vamos estudar hoje?</h3>
+                <div class="empty-form">
+                  <input type="text" id="emptyTopic" placeholder="Escreva o assunto ou a questão" autocomplete="off" aria-label="Assunto" />
+                  <button type="button" class="btn btn-solid" id="emptyStart">Começar</button>
+                </div>
+                <div class="chips" id="starterChips" role="group" aria-label="Sugestões"></div>
+              </div>
+            </div>
+
+            <div class="chat-quick" id="chatQuick" role="group" aria-label="Atalhos">
+              <button type="button" class="chip" data-say="Me dê só uma dica pequena, sem entregar a resposta.">Dica</button>
+              <button type="button" class="chip" data-say="Não entendi. Explique de outro jeito, com um exemplo do dia a dia.">Não entendi</button>
+              <button type="button" class="chip" data-say="Me teste com uma pergunta sobre o que vimos.">Me teste</button>
+              <button type="button" class="chip" data-say="Resuma o que vimos até agora em 5 tópicos curtos.">Resumir</button>
+              <button type="button" class="chip" data-say="Crie 5 cartões de estudo sobre o que vimos. Formato exato, uma linha por cartão: P: pergunta || R: resposta">Criar cartões</button>
+            </div>
+
+            <form class="chat-compose" id="chatForm">
+              <label for="chatInput" class="sr-only">Sua mensagem</label>
+              <textarea id="chatInput" rows="1" placeholder="Escreva sua resposta ou dúvida…  (Enter envia, Shift+Enter quebra a linha)"></textarea>
+              <button type="button" class="icon-btn" id="chatMic" aria-label="Falar em vez de digitar" aria-pressed="false" title="Falar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+              </button>
+              <button type="submit" class="btn btn-solid" id="chatSend">Enviar</button>
+              <button type="button" class="btn btn-ghost" id="chatStop" hidden>Parar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog id="aiDialog" class="ai-dialog">
+      <h3>Conectar uma IA ao tutor</h3>
+      <p>Sem IA, o tutor usa um roteiro de perguntas (modo local). Para respostas completas, escolha um caminho:</p>
+      <ol class="ai-steps">
+        <li><strong>Site publicado:</strong> o responsável pode ativar uma chave no servidor (<code>ANTHROPIC_API_KEY</code>). Isso é opcional e pode gerar custos para quem hospeda. Veja o README.</li>
+        <li><strong>Sua própria chave:</strong> cole abaixo apenas se tiver uma conta e autorização para usar esse serviço. A chave fica salva neste navegador e as mensagens vão para a Anthropic. Evite computadores compartilhados.</li>
+      </ol>
+      <div class="field">
+        <label for="aiKey">Chave da API (sk-ant-…)</label>
+        <input type="password" id="aiKey" autocomplete="off" spellcheck="false" placeholder="sk-ant-..." />
+      </div>
+      <div class="field">
+        <label for="aiModel">Modelo</label>
+        <select id="aiModel"><option value="claude-haiku-5-5">Haiku 5.5 (rápido e barato)</option><option value="claude-sonnet-5-5">Sonnet 5.5 (mais capaz)</option></select>
+      </div>
+      <p class="field-hint">O EstudaIA funciona gratuitamente no modo local, sem IA conectada. Recursos de IA remota não estão incluídos na estimativa escolar de gasto adicional zero.</p>
+      <p class="ai-msg" id="aiMsg" role="status"></p>
+      <div class="dialog-btns">
+        <button type="button" class="btn btn-ghost btn-xs" id="aiRemove">Remover chave</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-ghost btn-xs" id="aiClose">Fechar</button>
+        <button type="button" class="btn btn-solid btn-xs" id="aiSave">Salvar</button>
+      </div>
+    </dialog>
+
+    <!-- Leitura de materiais de estudo, sem envio automático de documentos -->
+    <section class="block-section block-tinted sec-green" id="materiais">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">seu próprio material</p>
+          <h2>Estude com um PDF ou texto</h2>
+          <p>Traga um resumo, uma apostila ou suas anotações. Primeiro leia e destaque o que importa; depois use o tutor para fazer perguntas sobre esse conteúdo, sem pular a sua própria tentativa.</p>
+        </div>
+        <div class="materials-grid">
+          <div class="panel material-upload">
+            <h3>01 · Adicione um material</h3>
+            <p class="muted-small">Arquivos PDF, .txt ou .md, de até 10 MB. Um arquivo por vez. O material fica nesta aba e não é salvo automaticamente.</p>
+            <label for="materialFile" class="material-drop" id="materialDrop">
+              <span aria-hidden="true" class="material-glyph">↥</span>
+              <strong>Selecionar arquivo</strong>
+              <span>ou arraste o arquivo até aqui</span>
+              <input type="file" id="materialFile" accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown" />
+            </label>
+            <p class="material-status" id="materialStatus" role="status" aria-live="polite">Nenhum material adicionado.</p>
+            <div class="material-actions" id="materialFileActions" hidden>
+              <button type="button" class="btn btn-ghost btn-xs" id="materialRemove">Remover material</button>
+              <button type="button" class="btn btn-ghost btn-xs" id="materialCopy">Copiar texto extraído</button>
+            </div>
+            <div class="material-paste">
+              <label for="materialPaste">Ou cole um texto de estudo</label>
+              <textarea id="materialPaste" class="clean-textarea" rows="5" maxlength="150000" placeholder="Cole aqui um trecho do livro, seu resumo ou anotações próprias..."></textarea>
+              <button type="button" class="btn btn-ghost btn-xs" id="materialUsePaste">Usar este texto</button>
+            </div>
+          </div>
+          <div class="panel material-workspace">
+            <div class="material-workspace-header">
+              <h3>02 · Entenda antes de perguntar</h3>
+              <span class="mini-badge" id="materialBadge">Aguardando material</span>
+            </div>
+            <label for="materialQuestion" class="field-label">O que você quer entender?</label>
+            <textarea id="materialQuestion" class="clean-textarea" rows="3" placeholder="Ex.: Qual é a ideia principal? Me dê uma pista para resolver a atividade 3."></textarea>
+            <div class="material-actions">
+              <button type="button" class="btn btn-solid btn-xs" id="materialAsk">Perguntar ao tutor</button>
+              <button type="button" class="btn btn-ghost btn-xs" id="materialTest">Me testar sobre o material</button>
+            </div>
+            <label class="material-consent" for="materialShare">
+              <input type="checkbox" id="materialShare" />
+              <span>Se uma IA externa estiver conectada, autorizo enviar <strong>trechos selecionados</strong> deste material para responder à minha pergunta.</span>
+            </label>
+            <p class="material-notice">Sem essa autorização, o tutor não recebe o texto do arquivo. No modo local, ele apenas orienta com perguntas, sem interpretar o PDF. Não envie informações pessoais ou de colegas.</p>
+            <div class="material-preview-wrap">
+              <div class="material-preview-top"><strong>Prévia do conteúdo</strong><span id="materialPages"></span></div>
+              <pre class="material-preview" id="materialPreview" tabindex="0">Depois de adicionar um material, um trecho aparecerá aqui.</pre>
+            </div>
+          </div>
+        </div>
+        <p class="material-footer-note">A leitura do PDF usa uma biblioteca gratuita que precisa de internet para ser carregada pela primeira vez. PDFs digitalizados como imagem podem não ter texto selecionável.</p>
+      </div>
+    </section>
+
+    <!-- Gerador de comando + biblioteca -->
+    <section class="block-section block-tinted sec-coral" id="gerador">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">para usar em qualquer IA</p>
+          <h2>Gerador de comando socrático</h2>
+          <p>Serve para qualquer tema, de Biologia a violão. Escreva o assunto, ajuste o resto e copie. O texto já traz regras para a IA não entregar respostas diretas.</p>
+        </div>
+
+        <div class="panel">
+          <div class="form-grid">
+            <div class="field field-wide">
+              <label for="genTopic">O que você quer estudar?</label>
+              <input type="text" id="genTopic" placeholder="Ex: Equação do 2º grau, Era Vargas, Estequiometria, Uso da crase" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label for="genSubject">Matéria <small>(opcional, escreva a sua)</small></label>
+              <input type="text" id="genSubject" list="subjectList" placeholder="Ex: Biologia, Direito, Violão" autocomplete="off" />
+              <datalist id="subjectList">
+                <option value="Matemática"></option><option value="Física"></option><option value="Química"></option><option value="Biologia"></option><option value="História"></option><option value="Geografia"></option><option value="Português e Literatura"></option><option value="Redação"></option><option value="Filosofia e Sociologia"></option><option value="Inglês"></option><option value="Espanhol"></option><option value="Programação"></option><option value="Artes"></option><option value="Economia"></option><option value="Direito"></option><option value="Medicina"></option>
+              </datalist>
+            </div>
+
+            <div class="field">
+              <label for="genLevel">Nível</label>
+              <select id="genLevel">
+                <option value="Ensino Médio">Ensino Médio</option>
+                <option value="ENEM e Vestibulares">ENEM e Vestibulares</option>
+                <option value="Ensino Fundamental">Ensino Fundamental</option>
+                <option value="Curso Técnico / Faculdade">Curso Técnico / Faculdade</option>
+                <option value="Estudo livre">Estudo livre</option>
+                <option value="Concurso / Certificação">Concurso / Certificação</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="genGoal">O que você quer fazer</label>
+              <select id="genGoal">
+                <option value="socratico">Entender o assunto passo a passo</option>
+                <option value="plano">Montar um plano de estudo do zero</option>
+                <option value="calculo">Resolver uma questão sem receber a resposta</option>
+                <option value="erro_conta">Descobrir onde errei na minha resolução</option>
+                <option value="questoes">Treinar questões com gabarito oculto</option>
+                <option value="feynman">Testar o que aprendi (Técnica Feynman)</option>
+                <option value="redacao">Revisar redação sem reescrever por mim</option>
+                <option value="revisao">Revisão rápida antes da prova</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="genTone">Estilo da tutoria</label>
+              <select id="genTone">
+                <option value="paciente">Didático e simples</option>
+                <option value="direto">Curto e direto ao ponto</option>
+                <option value="banca">Exigente (nível prova)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="prompt-box">
+            <div class="prompt-box-bar">
+              <span class="prompt-title">Seu comando <span class="prompt-hint" id="promptHint"></span></span>
+              <div class="prompt-actions">
+                <button type="button" class="btn btn-solid btn-xs" id="copyGeneratedBtn">Copiar prompt</button>
+                <button type="button" class="btn btn-ghost btn-xs" id="saveCustomPromptBtn">Salvar</button>
+                <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="ext-link" data-copy-open>Gemini ↗</a>
+                <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="ext-link" data-copy-open>ChatGPT ↗</a>
+                <a href="https://claude.ai/" target="_blank" rel="noopener noreferrer" class="ext-link" data-copy-open>Claude ↗</a>
+              </div>
+            </div>
+            <pre id="generatedPromptText" class="prompt-output" aria-live="polite"></pre>
+          </div>
+        </div>
+
+        <!-- Biblioteca de Modelos Prontos -->
+        <div class="sub-block">
+          <div class="library-bar">
+            <div>
+              <h3>Modelos prontos por situação</h3>
+              <p>Clique para copiar direto ou salve os que você mais usa.</p>
+            </div>
+            <input type="search" id="promptSearch" class="search-input" placeholder="Filtrar por palavra..." aria-label="Filtrar modelos" />
+          </div>
+
+          <div class="tabs-row" id="categoryFilters" role="group" aria-label="Categorias">
+            <button type="button" class="tab-chip active" data-filter="todos">Todos</button>
+            <button type="button" class="tab-chip" data-filter="socratico">Entender Matéria</button>
+            <button type="button" class="tab-chip" data-filter="exatas">Exatas</button>
+            <button type="button" class="tab-chip" data-filter="questoes">Questões</button>
+            <button type="button" class="tab-chip" data-filter="redacao">Redação</button>
+            <button type="button" class="tab-chip" data-filter="revisao">Revisão</button>
+            <button type="button" class="tab-chip" data-filter="idiomas">Idiomas</button>
+            <button type="button" class="tab-chip" data-filter="favoritos">Salvos (<span id="favCount">0</span>)</button>
+          </div>
+
+          <div class="models-grid" id="promptsGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 2: Demonstração na Prática (Ótima para estudar e apresentar) -->
+    <section class="block-section sec-teal" id="pratica">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">compare os dois jeitos</p>
+          <h2>Veja a diferença na prática</h2>
+          <p>Compare o pedido comum, que entrega a cola pronta, com o diálogo socrático. Os exemplos são de cinco matérias, mas o método vale para qualquer assunto.</p>
+        </div>
+
+        <div class="demo-controls-top">
+          <div class="subject-pills" id="simSubjectPills">
+            <button type="button" class="tab-chip active" data-scenario="fisica">Física</button>
+            <button type="button" class="tab-chip" data-scenario="matematica">Matemática</button>
+            <button type="button" class="tab-chip" data-scenario="historia">História</button>
+            <button type="button" class="tab-chip" data-scenario="quimica">Química</button>
+            <button type="button" class="tab-chip" data-scenario="redacao">Redação</button>
+          </div>
+
+          <div class="mode-switch" role="tablist" aria-label="Modo de comparação">
+            <button type="button" class="switch-btn active" data-demo-mode="socratico" role="tab" aria-selected="true">Jeito EstudaIA</button>
+            <button type="button" class="switch-btn" data-demo-mode="comum" role="tab" aria-selected="false">Pedido Comum</button>
+          </div>
+        </div>
+
+        <div class="panel chat-panel">
+          <div class="chat-top">
+            <div>
+              <strong id="simTitle">Física — Velocidade Média</strong>
+              <span class="chat-meta" id="simStepIndicator">Passo 2 de 6</span>
+            </div>
+            <div class="chat-top-btns">
+              <button type="button" class="btn btn-ghost btn-xs" id="simShowAllBtn">Mostrar tudo</button>
+              <button type="button" class="btn btn-ghost btn-xs" id="simResetBtn">Reiniciar</button>
+            </div>
+          </div>
+
+          <div class="chat-feed" id="simMessages" aria-live="polite"></div>
+
+          <div class="chat-bottom" id="simBottomBar">
+            <span class="chat-hint" id="simHint">Avance turno por turno para acompanhar o raciocínio.</span>
+            <button type="button" class="btn btn-solid btn-xs" id="simNextBtn">Próximo passo</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção 3: Caderno Feynman + Cronômetro de Foco -->
+    <section class="block-section block-tinted sec-sun" id="caderno">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">sua mesa de estudo</p>
+          <h2>Foco, folha Feynman e progresso</h2>
+          <p>Estude em blocos curtos e, ao terminar, feche a aba do chat e escreva aqui tudo o que lembra com suas palavras.</p>
+        </div>
+
+        <div class="stats-strip" aria-label="Seu progresso">
+          <div class="stat t-coral">
+            <span class="stat-label">Foco hoje</span>
+            <strong><span id="statMin">0</span> <small>min</small></strong>
+            <div class="bar"><i id="statBar"></i></div>
+            <label class="goal-row">meta <input type="number" id="statGoal" min="5" max="600" step="5" value="60" aria-label="Meta diária em minutos" /> min</label>
+          </div>
+          <div class="stat t-sun">
+            <span class="stat-label">Sequência</span>
+            <strong id="statStreak">0</strong>
+            <span class="stat-sub" id="statStreakLabel">dias seguidos</span>
+            <div class="week" id="statWeek" aria-label="Minutos nos últimos 7 dias"></div>
+          </div>
+          <div class="stat t-teal">
+            <span class="stat-label">Cartões para revisar</span>
+            <strong id="statDue">0</strong>
+            <a href="#cartoes" class="stat-link" data-nav="cartoes">Revisar agora →</a>
+          </div>
+          <div class="stat t-blue">
+            <span class="stat-label">Prova ou meta</span>
+            <strong id="examOut">defina a data</strong>
+            <input type="text" id="examName" placeholder="Nome (ex: Prova de Física)" aria-label="Nome da prova" />
+            <input type="date" id="examDate" aria-label="Data da prova" />
+          </div>
+        </div>
+
+        <div class="desk-grid">
+          <!-- Cronômetro -->
+          <div class="panel timer-panel">
+            <div class="panel-top">
+              <h3>Tempo de foco</h3>
+              <span class="mini-badge" id="pomodoroCycles">0 ciclos</span>
+            </div>
+
+            <input type="text" id="focusTaskInput" class="clean-input" placeholder="Meta deste bloco (ex: 4 exercícios de Física)" aria-label="Meta do bloco de estudo" />
+
+            <div class="timer-pills">
+              <button type="button" class="tmode-btn active" data-minutes="25" data-label="Foco">25 min</button>
+              <button type="button" class="tmode-btn" data-minutes="5" data-label="Pausa">5 min</button>
+              <button type="button" class="tmode-btn" data-minutes="15" data-label="Descanso">15 min</button>
+              <button type="button" class="tmode-btn" id="customTimerBtn" data-minutes="40" data-label="Foco">40 min</button>
+            </div>
+
+            <div class="clock-face">
+              <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="54"/><circle class="ring-fg" id="ringFg" cx="60" cy="60" r="54"/></svg>
+              <span class="clock-label" id="timerModeLabel">Foco</span>
+              <div class="clock-time" id="timerDisplay" role="timer">25:00</div>
+            </div>
+
+            <div class="timer-extra">
+              <label>Outro tempo de foco <input type="number" id="customMin" min="1" max="180" value="40" aria-label="Minutos do foco personalizado" /> min</label>
+              <label class="check-inline"><input type="checkbox" id="timerSound" checked /> som ao terminar</label>
+            </div>
+
+            <div class="clock-btns">
+              <button type="button" class="btn btn-solid btn-xs" id="timerStartBtn">Iniciar</button>
+              <button type="button" class="btn btn-ghost btn-xs" id="timerPauseBtn" disabled>Pausar</button>
+              <button type="button" class="btn btn-ghost btn-xs" id="timerResetBtn">Zerar</button>
+            </div>
+          </div>
+
+          <!-- Folha Feynman -->
+          <div class="panel notebook-panel">
+            <div class="panel-top">
+              <h3>Folha de resumo (sem olhar a IA)</h3>
+              <span class="mini-badge" id="noteSaveStatus">Salva neste aparelho</span>
+            </div>
+
+            <input type="text" id="noteTopicInput" class="clean-input note-heading-input" placeholder="Assunto estudado..." aria-label="Assunto do resumo" />
+
+            <textarea id="noteContentInput" class="clean-textarea" rows="7" placeholder="Explique o conteúdo como se estivesse ensinando um colega. Se travar em alguma parte, é exatamente ali que vale revisar."></textarea>
+
+            <div class="notebook-bar">
+              <span class="small-label" id="noteWordCount">0 palavras</span>
+              <div class="notebook-actions">
+                <button type="button" class="btn btn-ghost btn-xs" id="clearNoteBtn">Limpar</button>
+                <button type="button" class="btn btn-ghost btn-xs" id="copyNoteBtn">Copiar</button>
+                <button type="button" class="btn btn-solid btn-xs" id="downloadNoteBtn">Baixar .txt</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cartões de revisão -->
+    <section class="block-section sec-pink" id="cartoes">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">revise nos dias seguintes</p>
+          <h2>Cartões de revisão</h2>
+          <p>Perguntas de um lado, respostas do outro. Os que você erra voltam logo; os que acerta aparecem cada vez mais espaçados. Peça ao tutor para criar, ou faça à mão.</p>
+        </div>
+
+        <div class="panel fc-panel" id="fcFace">
+          <div class="fc-top">
+            <div class="fc-tabs" role="tablist" aria-label="Cartões">
+              <button type="button" class="chip active" data-fctab="revisar" role="tab" aria-selected="true">Revisar</button>
+              <button type="button" class="chip" data-fctab="adicionar" role="tab" aria-selected="false">Adicionar</button>
+              <button type="button" class="chip" data-fctab="baralho" role="tab" aria-selected="false">Meu baralho</button>
+            </div>
+            <span class="mini-badge" id="fcCount">0 para revisar</span>
+          </div>
+
+          <div id="fcTab-revisar">
+            <div class="fc-empty" id="fcEmpty" hidden>
+              <p id="fcEmptyText"></p>
+              <div class="fc-empty-btns">
+                <button type="button" class="btn btn-solid btn-xs" id="fcAsk">Pedir cartões ao tutor</button>
+                <button type="button" class="btn btn-ghost btn-xs" id="fcExamples">Carregar exemplos</button>
+                <button type="button" class="btn btn-ghost btn-xs" id="fcAll" hidden>Estudar todos agora</button>
+              </div>
+            </div>
+            <div id="fcStudy" hidden>
+              <div class="fc-card" id="fcCard" role="button" tabindex="0" aria-label="Virar o cartão">
+                <div class="fc-inner">
+                  <div class="fc-side fc-front"><span class="fc-tag" id="fcTag"></span><p id="fcQ"></p><span class="fc-hint">toque para virar</span></div>
+                  <div class="fc-side fc-back"><span class="fc-tag">Resposta</span><p id="fcA"></p></div>
+                </div>
+              </div>
+              <div class="fc-actions">
+                <span class="small-label" id="fcBox"></span>
+                <button type="button" class="btn btn-solid" id="fcShow">Mostrar resposta</button>
+                <div class="fc-rate" id="fcRate" hidden>
+                  <button type="button" class="btn rate-again" data-rate="again">Errei <kbd>1</kbd></button>
+                  <button type="button" class="btn rate-hard" data-rate="hard">Quase <kbd>2</kbd></button>
+                  <button type="button" class="btn rate-good" data-rate="good">Acertei <kbd>3</kbd></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="fcTab-adicionar" hidden>
+            <form class="fc-form" id="fcAddForm">
+              <div class="field"><label for="fcNewQ">Pergunta</label><input type="text" id="fcNewQ" autocomplete="off" /></div>
+              <div class="field"><label for="fcNewA">Resposta</label><input type="text" id="fcNewA" autocomplete="off" /></div>
+              <div class="field"><label for="fcNewTag">Matéria <small>(opcional)</small></label><input type="text" id="fcNewTag" list="subjectList" autocomplete="off" /></div>
+              <button type="submit" class="btn btn-solid">Criar cartão</button>
+            </form>
+            <div class="field import-box">
+              <label for="fcImport">Ou cole vários de uma vez <small>(uma linha por cartão: pergunta || resposta)</small></label>
+              <textarea id="fcImport" class="clean-textarea" rows="3" placeholder="O que é uma mitocôndria? || Organela que libera energia"></textarea>
+              <button type="button" class="btn btn-ghost btn-xs" id="fcImportBtn">Importar</button>
+            </div>
+          </div>
+
+          <div id="fcTab-baralho" hidden>
+            <div class="fc-bar">
+              <input type="search" id="fcFilter" class="search-input" placeholder="Filtrar cartões…" aria-label="Filtrar cartões" />
+              <button type="button" class="btn btn-ghost btn-xs" id="fcExport">Copiar baralho</button>
+              <button type="button" class="btn btn-ghost btn-xs" id="fcClear">Apagar tudo</button>
+            </div>
+            <ul class="fc-list" id="fcList"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Senso crítico -->
+    <section class="block-section block-tinted sec-violet" id="checagem">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">confie, mas confira</p>
+          <h2>Senso crítico: a IA também erra</h2>
+          <p>Modelos de linguagem inventam datas, trocam autores e erram sinais em contas com total confiança. Confira sempre e teste seu olhar abaixo.</p>
+        </div>
+
+        <div class="desk-grid">
+          <!-- Checklist Simples -->
+          <div class="panel">
+            <h3>4 checagens antes de confiar</h3>
+            <p class="muted-small">Marque conforme for revisando seu material:</p>
+
+            <div class="check-list">
+              <label class="check-row">
+                <input type="checkbox" class="verify-check" />
+                <span><strong>Bater com o livro ou caderno:</strong> datas, fórmulas e conceitos precisam coincidir com o material da aula.</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" class="verify-check" />
+                <span><strong>Refazer os cálculos no papel:</strong> chats costumam errar sinais negativos e multiplicações no meio da conta.</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" class="verify-check" />
+                <span><strong>Desconfiar de citações prontas:</strong> não leve frases atribuídas a filósofos ou escritores para a redação sem checar a obra real.</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" class="verify-check" />
+                <span><strong>Confirmar em uma segunda fonte:</strong> consulte enciclopédias, portais educacionais ou livros antes de apresentar trabalhos.</span>
+              </label>
+            </div>
+
+            <p class="status-line" id="checklistStatus">0 de 4 itens verificados.</p>
+          </div>
+
+          <!-- Desafio Caça-Erros -->
+          <div class="panel">
+            <div class="panel-top">
+              <h3>Teste: essa resposta da IA está certa?</h3>
+              <span class="mini-badge" id="quizScore">0 / 8 acertos</span>
+            </div>
+
+            <div class="quiz-box">
+              <span class="small-label" id="quizSubject">História do Brasil</span>
+              <p class="quiz-quote" id="quizStatement"></p>
+            </div>
+
+            <div class="quiz-choices">
+              <button type="button" class="btn btn-ghost quiz-choice" data-answer="true">Está correta</button>
+              <button type="button" class="btn btn-ghost quiz-choice" data-answer="false">Tem erro / invenção</button>
+            </div>
+
+            <div class="quiz-result" id="quizFeedback" hidden></div>
+
+            <div class="quiz-footer">
+              <span class="small-label" id="quizProgress">1 de 8</span>
+              <button type="button" class="btn btn-solid btn-xs" id="quizNextBtn" hidden>Próxima</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projeto multidisciplinar e referências da pesquisa -->
+    <section class="block-section sec-green" id="sobre">
+      <div class="wrap">
+        <div class="section-heading">
+          <p class="eyebrow">o projeto por trás do site</p>
+          <h2>IA para compreender, não copiar</h2>
+          <p>O EstudaIA nasceu do projeto multidisciplinar do curso Técnico em Vendas, turma 3º C, em Atibaia (2026). A ideia é simples: a IA pode ajudar muito, mas a aprendizagem precisa continuar nas mãos do estudante.</p>
+        </div>
+        <div class="about-layout">
+          <div>
+            <h3>Quem desenvolveu</h3>
+            <p><strong>Matheus Godoy, Leonardo Bueno e Kauã Eduardo.</strong> Pesquisa e método de estudo, comunicação e visual, desenvolvimento e testes fazem parte do trabalho da equipe.</p>
+            <h3>O que o site oferece</h3>
+            <p>Tutor guiado, comandos educativos, leitura de material próprio, cartões de revisão, temporizador, anotações e uma lista para conferir informações. O site é gratuito para o estudante e não exige conta.</p>
+            <h3>O que ainda precisa ser validado</h3>
+            <p>A meta do projeto é convidar 20 estudantes, recolher 12 avaliações voluntárias e realizar 5 testes de uso. <strong>Esses números são metas, não resultados medidos.</strong></p>
+          </div>
+          <div class="about-aside">
+            <div class="aside-card">
+              <strong>Um projeto com cuidado</strong>
+              <p>As respostas da IA podem errar. Por isso, sempre confira conceitos, datas e fórmulas no material da aula. Notas e cartões ficam no navegador, podendo desaparecer se os dados forem apagados. Quando a IA externa é usada, mensagens podem ser enviadas ao serviço escolhido.</p>
+            </div>
+            <div class="aside-card research-mini">
+              <strong>Pesquisa ilustrativa · dados simulados</strong>
+              <p>Os 85%, 60% e 80% apresentados nos slides são um <strong>exemplo fictício com 20 estudantes hipotéticos</strong>. Não representam uma pesquisa aplicada pela equipe.</p>
+            </div>
+          </div>
+        </div>
+        <div class="swot-brief" aria-label="Análise SWOT do projeto">
+          <h3>Possibilidades e cuidados · análise SWOT</h3>
+          <div class="swot-brief-grid">
+            <div><strong>Forças</strong><p>Estudo guiado, cartões, acesso gratuito e foco na autonomia.</p></div>
+            <div><strong>Fraquezas</strong><p>Equipe pequena e limitações em aparelhos mais simples.</p></div>
+            <div><strong>Oportunidades</strong><p>Professores podem indicar o site e colaborar na revisão.</p></div>
+            <div><strong>Ameaças</strong><p>Respostas incorretas da IA e mudanças em serviços gratuitos.</p></div>
+          </div>
+        </div>
+        <div class="sources-block">
+          <h3>Fontes e referências</h3>
+          <ul>
+            <li><a href="https://unesdoc.unesco.org/ark:/48223/pf0000386693" target="_blank" rel="noopener noreferrer">UNESCO (2023)</a> · Guidance for generative AI in education and research.</li>
+            <li><a href="https://doi.org/10.1073/pnas.2422633122" target="_blank" rel="noopener noreferrer">Bastani e colaboradores (2025)</a> · Generative AI without guardrails can harm learning, PNAS.</li>
+            <li><a href="https://doi.org/10.1016/j.edurev.2025.100714" target="_blank" rel="noopener noreferrer">Han, Peng e Liu (2025)</a> · The impact of GenAI on learning outcomes: a systematic review and meta-analysis.</li>
+            <li><a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener noreferrer">Brasil, Lei nº 13.709/2018</a> · Lei Geral de Proteção de Dados Pessoais, artigo 14.</li>
+            <li><a href="https://www.gov.br/anpd/pt-br/assuntos/noticias/anpd-publica-enunciado-sobre-tratamento-de-dados-pessoais-de-criancas-e-adolescentes" target="_blank" rel="noopener noreferrer">ANPD (2023)</a> · Enunciado CD/ANPD nº 1 sobre dados de crianças e adolescentes.</li>
+          </ul>
+          <p class="muted-small">As referências orientam o projeto. Elas não comprovam, por si só, que a plataforma melhorou as notas dos alunos.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>EstudaIA · Matheus Godoy, Leonardo Bueno e Kauã Eduardo · 2026</span>
+      <span class="footer-links"><a href="#inicio" data-nav="inicio">Voltar ao topo</a></span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+  <script src="tutor-core.js"></script>
+  <script src="tutor.js"></script>
+  <script src="extras.js"></script>
+  <script src="materiais.js"></script>
+  <script src="globe.js"></script>
+</body>
+</html>

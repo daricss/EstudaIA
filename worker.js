@@ -172,19 +172,27 @@ async function handleChat(request, env, ctx) {
   const system = core.buildSystem(s);
   const max_tokens = core.maxTokens(s.length);
 
-  let up = null, used = null, sawOtherError = false;
+  let up = null, used = null;
+  const fails = []; // diagnóstico: o que cada motor respondeu (sem chaves)
   for (const e of list) {
     if ((cooldowns.get(e.id) || 0) > Date.now()) continue;
     const req = buildRequest(e, system, messages, max_tokens);
     let r;
     try {
       r = await fetch(req.url, { method: "POST", headers: req.headers, body: JSON.stringify(req.body) });
-    } catch (err) { sawOtherError = true; continue; }
+    } catch (err) {
+      fails.push({ engine: e.id + ":" + e.model, status: 0, message: String(err && err.message || err).slice(0, 200) });
+      continue;
+    }
     if (r.ok) { up = r; used = e; break; }
     if (r.status === 429 || r.status === 413) {
       cooldowns.set(e.id, Date.now() + waitFromHeaders(r.headers) * 1000);
     } else {
-      sawOtherError = true; // chave inválida, provedor fora do ar etc.: tenta o próximo
+      // chave inválida, modelo inexistente, provedor fora do ar etc.: registra e tenta o próximo
+      let msg = "";
+      try { msg = (await r.text()).slice(0, 300); } catch (err) {}
+      fails.push({ engine: e.id + ":" + e.model, status: r.status, message: msg });
+      console.log("falha no motor", e.id, r.status, msg);
     }
   }
 
@@ -193,7 +201,7 @@ async function handleChat(request, env, ctx) {
     if (st.limited) {
       return json(429, { error: "exhausted", retryAfter: st.retryAfter, resetAt: st.resetAt }, { "retry-after": String(st.retryAfter) });
     }
-    return json(502, { error: sawOtherError ? "upstream" : "unavailable" });
+    return json(502, { error: fails.length ? "upstream" : "unavailable", details: fails });
   }
 
   const { readable, writable } = new TransformStream();

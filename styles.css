@@ -404,3 +404,96 @@ kbd { font: .72rem ui-monospace, monospace; padding: 0 5px; border: 1px solid va
 .swot-brief-grid p { color: var(--muted); font-size: .84rem; line-height: 1.5; margin: 0; }
 @media (max-width: 900px) { .swot-brief-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .swot-brief-grid { grid-template-columns: 1fr; } }
+
+/* =========================================================
+   Ajustes de responsividade (mobile)
+   Só corrigem encaixe e quebra de layout. Cores, fontes, bordas,
+   sombras e o estilo geral continuam exatamente como antes.
+   ========================================================= */
+
+/* O atributo [hidden] estava sendo anulado por .btn / .icon-btn (display: inline-flex),
+   deixando "Parar" sempre visível ao lado de "Enviar". */
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: clip; }
+
+/* Chat: o cabeçalho, os atalhos e o campo de envio nunca encolhem; só a conversa rola. */
+.chat-head, .chat-quick, .chat-compose { flex-shrink: 0; }
+.chat-who { min-width: 0; }
+.chat-empty { width: 100%; }
+.empty-form input { width: 0; text-overflow: ellipsis; }
+.msg { min-width: 0; }
+.msg .bubble { min-width: 0; overflow-wrap: break-word; }
+.bubble.student, .bubble.ai { overflow-wrap: break-word; }
+.bubble pre { max-width: 100%; }
+
+/* Anel do cronômetro: a caixa era mais baixa que o anel e ele vazava por cima dos botões. */
+.clock-face { min-height: 226px; align-content: center; }
+
+/* Painéis e cabeçalhos com selo: quebram linha em vez de espremer o título. */
+.panel-top, .material-workspace-header, .material-preview-top { flex-wrap: wrap; }
+
+/* Área de toque maior nos links pequenos das mensagens, sem mudar o tamanho visual. */
+.mt-btn { position: relative; }
+.mt-btn::after { content: ""; position: absolute; inset: -9px -5px; }
+
+@media (max-width: 900px) {
+  .main-nav { max-height: calc(100vh - 62px); max-height: calc(100dvh - 62px); overflow-y: auto; }
+}
+
+@media (max-width: 780px) {
+  /* altura do chat acompanha a tela do celular (dvh = descontando a barra do navegador) */
+  .chat-window { height: 78vh; height: 78dvh; min-height: 540px; max-height: 780px; }
+  .chat-log { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+
+  /* atalhos do chat: rolam de lado sem mostrar barra de rolagem */
+  .chat-quick { scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .chat-quick::-webkit-scrollbar { display: none; }
+  .chat-quick .chip { flex-shrink: 0; }
+
+  /* fonte 16px nos campos: evita o zoom automático do iOS ao tocar */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+  select, textarea { font-size: 16px !important; }
+
+  .fc-card { height: 290px; }
+  .fc-side { padding: 20px 18px; overflow-y: auto; justify-content: safe center; }
+}
+
+@media (max-width: 520px) {
+  .wrap { padding: 0 16px; }
+  .main-nav { padding: 12px 16px; }
+  .panel { padding: 18px 16px; }
+  .tutor-side { padding: 18px 16px; }
+  .chat-window.panel { padding: 0; }
+  .block-section { padding: 46px 0; }
+
+  /* cabeçalho do chat: título em cima, botões embaixo dividindo a largura */
+  .chat-head { flex-wrap: wrap; row-gap: 10px; padding: 12px; }
+  .chat-head-btns { flex: 1 1 100%; flex-wrap: nowrap; }
+  .chat-head-btns .btn { flex: 1 1 0; padding: 8px 10px; }
+  .chat-log { padding: 16px 12px; }
+  .chat-quick { padding: 10px 12px 2px; }
+
+  /* campo de envio: texto ocupa a linha toda; mic, Enviar e Parar na linha de baixo */
+  .chat-compose { flex-wrap: wrap; padding: 10px 12px 12px; }
+  #chatInput { flex: 1 1 100%; min-height: 44px; }
+  .chat-compose .icon-btn { flex: 0 0 44px; width: 44px; height: 42px; }
+  .chat-compose .btn { flex: 1 1 0; }
+
+  .empty-form .btn { flex-shrink: 0; padding-left: 16px; padding-right: 16px; }
+  .chat-empty { padding: 4px 0; }
+  .chat-empty h3 { font-size: 1.3rem; }
+
+  .chat-top, .chat-bottom { padding-left: 14px; padding-right: 14px; }
+  .chat-feed { padding: 16px 14px; }
+  .bubble.student, .bubble.ai { max-width: 92%; }
+  .fc-actions { justify-content: center; }
+  .toast { left: 16px; right: 16px; bottom: 14px; max-width: none; text-align: center; }
+}
+
+@media (max-width: 380px) {
+  .quiz-choices { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+  .stat strong { font-size: 1.7rem; }
+  .clock-time { font-size: 2.5rem; }
+}

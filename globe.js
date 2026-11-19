@@ -81,7 +81,7 @@
   }
 
   function toScreen(v) {
-    const R = W * 0.31;
+    const R = W * (W < 460 ? 0.27 : 0.31); /* telas estreitas: globo um pouco menor para os rótulos não saírem do quadro */
     const s = FOV / (FOV - v[2]);
     return { x: W / 2 + v[0] * s * R, y: W / 2 + v[1] * s * R, z: v[2], s };
   }

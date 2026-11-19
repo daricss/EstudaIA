@@ -4,9 +4,9 @@
    Todo o resto é servido pelos arquivos estáticos da pasta /public.
 
    IA gratuita, em ordem de tentativa (passa para a próxima quando a anterior esgota):
-     1. Groq  — GROQ_API_KEY, modelo GROQ_MODEL (padrão llama-3.3-70b-versatile)
-     2. Groq  — mesmo GROQ_API_KEY, modelo GROQ_FALLBACK_MODEL (padrão llama-3.1-8b-instant)
-     3. NVIDIA — NVIDIA_API_KEY, modelo NVIDIA_MODEL (padrão meta/llama-3.3-70b-instruct)
+     1. Groq  — GROQ_API_KEY, modelo GROQ_MODEL (padrão openai/gpt-oss-120b)
+     2. Groq  — mesmo GROQ_API_KEY, modelo GROQ_FALLBACK_MODEL (padrão openai/gpt-oss-20b)
+     3. NVIDIA — NVIDIA_API_KEY, modelo NVIDIA_MODEL (padrão nvidia/nemotron-3-super-120b-a12b)
    Sem Groq nem NVIDIA, usa ANTHROPIC_API_KEY (paga) se existir.
    Quando tudo esgota, responde 429 com { error: "exhausted", retryAfter, resetAt }.
    Opcionais: ALLOWED_ORIGIN, RATE_LIMIT_PER_10MIN. */
@@ -22,11 +22,11 @@ const URLS = {
 function engines(env) {
   const list = [];
   if (env.GROQ_API_KEY) {
-    list.push({ id: "groq:a", kind: "groq", key: env.GROQ_API_KEY, model: env.GROQ_MODEL || "llama-3.3-70b-versatile" });
-    list.push({ id: "groq:b", kind: "groq", key: env.GROQ_API_KEY, model: env.GROQ_FALLBACK_MODEL || "llama-3.1-8b-instant" });
+    list.push({ id: "groq:a", kind: "groq", key: env.GROQ_API_KEY, model: env.GROQ_MODEL || "openai/gpt-oss-120b" });
+    list.push({ id: "groq:b", kind: "groq", key: env.GROQ_API_KEY, model: env.GROQ_FALLBACK_MODEL || "openai/gpt-oss-20b" });
   }
   if (env.NVIDIA_API_KEY) {
-    list.push({ id: "nvidia", kind: "nvidia", key: env.NVIDIA_API_KEY, model: env.NVIDIA_MODEL || "meta/llama-3.3-70b-instruct" });
+    list.push({ id: "nvidia", kind: "nvidia", key: env.NVIDIA_API_KEY, model: env.NVIDIA_MODEL || "nvidia/nemotron-3-super-120b-a12b" });
   }
   if (!list.length && env.ANTHROPIC_API_KEY) {
     list.push({ id: "anthropic", kind: "anthropic", key: env.ANTHROPIC_API_KEY, model: env.CLAUDE_MODEL || core.DEFAULT_MODEL });
@@ -108,16 +108,24 @@ function buildRequest(e, system, messages, max_tokens) {
       body: { model: e.model, max_tokens, system, messages, stream: true }
     };
   }
+  /* Modelos de raciocínio (gpt-oss, Nemotron) gastam parte do limite "pensando":
+     damos uma folga e pedimos pouco raciocínio para sobrar texto de resposta. */
+  const body = {
+    model: e.model,
+    temperature: 0.6,
+    messages: [{ role: "system", content: system }, ...messages],
+    stream: true
+  };
+  if (e.kind === "groq") {
+    body.max_completion_tokens = max_tokens + 500;
+    if (/gpt-oss/.test(e.model)) body.reasoning_effort = "low";
+  } else {
+    body.max_tokens = max_tokens + 1500;
+  }
   return {
     url: URLS[e.kind],
     headers: { "content-type": "application/json", authorization: "Bearer " + e.key },
-    body: {
-      model: e.model,
-      max_tokens,
-      temperature: 0.6,
-      messages: [{ role: "system", content: system }, ...messages],
-      stream: true
-    }
+    body
   };
 }
 
@@ -210,9 +218,11 @@ async function handleChat(request, env, ctx) {
   ctx.waitUntil(
     (async () => {
       try {
-        const send = (chunk) => writer.write(enc.encode(chunk));
+        let wrote = false;
+        const send = (chunk) => { wrote = true; return writer.write(enc.encode(chunk)); };
         if (used.kind === "anthropic") await core.readAnthropicStream(up, send);
         else await readOpenAIStream(up, send);
+        if (!wrote) await writer.write(enc.encode("Não consegui gerar uma resposta agora. Tente enviar de novo."));
       } catch (err) { /* cliente fechou a conexão */ }
       try { await writer.close(); } catch (err) {}
     })()

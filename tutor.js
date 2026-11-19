@@ -446,6 +446,13 @@
   /* ---------- formulário, atalhos e voz ---------- */
   el.form.addEventListener("submit", (e) => { e.preventDefault(); send(el.input.value); });
   el.input.addEventListener("input", autogrow);
+  /* celular: placeholder curto (o texto longo, com dica de Enter, não cabe no campo) */
+  const phFull = el.input.getAttribute("placeholder") || "";
+  const phMq = window.matchMedia("(max-width: 520px)");
+  const syncPlaceholder = () => el.input.setAttribute("placeholder", phMq.matches ? "Escreva sua resposta ou dúvida…" : phFull);
+  syncPlaceholder();
+  if (phMq.addEventListener) phMq.addEventListener("change", syncPlaceholder);
+
   el.input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(el.input.value); }
   });

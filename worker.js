@@ -10,7 +10,7 @@
    Sem Groq nem NVIDIA, usa ANTHROPIC_API_KEY (paga) se existir.
    Quando tudo esgota, responde 429 com { error: "exhausted", retryAfter, resetAt }.
    Opcionais: ALLOWED_ORIGIN, RATE_LIMIT_PER_10MIN. */
-import core from "../public/tutor-core.js";
+import core from "./tutor-core.js";
 
 const URLS = {
   groq: "https://api.groq.com/openai/v1/chat/completions",
